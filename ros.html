@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<title>Para Rosalynn 💖</title>
+
+<style>
+body {
+    margin: 0;
+    height: 100vh;
+    background: #e6c1cc;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-family: 'Segoe UI', sans-serif;
+    overflow: hidden;
+}
+
+/* FLORES A LOS LADOS */
+.flowers {
+    position: absolute;
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 70px;
+    padding: 0 150px;
+    pointer-events: none;
+}
+
+/* animación suave */
+.flowers div {
+    animation: moverFlores 3s ease-in-out infinite;
+}
+
+@keyframes moverFlores {
+    0% { transform: translateY(0); }
+    50% { transform: translateY(-12px); }
+    100% { transform: translateY(0); }
+}
+
+/* IMÁGENES EN ESQUINAS */
+.corner {
+    position: absolute;
+    width: 220px;
+}
+
+.top-left { top: 20px; left: 20px; }
+.top-right { top: 20px; right: 20px; }
+.bottom-left { bottom: 20px; left: 20px; }
+.bottom-right { bottom: 20px; right: 20px; }
+
+/* SOBRE */
+.envelope {
+    width: 300px;
+    height: 200px;
+    background: #ff6f91;
+    position: relative;
+    cursor: pointer;
+    border-radius: 10px;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+    z-index: 2;
+}
+
+/* TAPA */
+.flap {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background: #ff4d88;
+    clip-path: polygon(0 0, 50% 50%, 100% 0);
+    transform-origin: top;
+    transition: 1s;
+    z-index: 3;
+}
+
+/* CARTA (FUERA DEL SOBRE PARA QUE NO SE CORTE) */
+.card {
+    position: absolute;
+    width: 320px;
+    background: white;
+    border-radius: 20px;
+    padding: 25px;
+    text-align: center;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, 50%) scale(0.8);
+    opacity: 0;
+    transition: 1s;
+    z-index: 5;
+}
+
+.card h1 {
+    color: #ff4d88;
+}
+
+.card p {
+    color: #444;
+}
+
+/* ANIMACIÓN */
+.open .flap {
+    transform: rotateX(180deg);
+}
+
+.open + .card {
+    opacity: 1;
+    transform: translate(-50%, -50%) scale(1.1);
+}
+
+/* DESVANECER SOLO EL SOBRE */
+.fade {
+    animation: fadeOut 2s forwards;
+}
+
+@keyframes fadeOut {
+    to { opacity: 0; }
+}
+
+/* CORAZONES */
+.heart {
+    position: absolute;
+    font-size: 20px;
+    animation: subir 4s linear infinite;
+}
+
+@keyframes subir {
+    0% { transform: translateY(0); opacity: 1; }
+    100% { transform: translateY(-400px); opacity: 0; }
+}
+
+/* MENSAJE FINAL */
+.final {
+    position: absolute;
+    bottom: 40px;
+    font-size: 22px;
+    color: #ff4d88;
+    opacity: 0;
+    transition: 2s;
+}
+
+.show {
+    opacity: 1;
+}
+</style>
+</head>
+
+<body>
+
+<!-- MÚSICA -->
+<audio id="music" src="music.mp3"></audio>
+
+<!-- FLORES -->
+<div class="flowers">
+    <div>🌸 🌹 🌺 🌷 🌼</div>
+    <div>🌸 🌹 🌺 🌷 🌼</div>
+</div>
+
+<!-- IMÁGENES EN ESQUINAS -->
+<img src="img1.png" class="corner top-left">
+<img src="img2.png" class="corner top-right">
+<img src="img3.png" class="corner bottom-left">
+<img src="img4.png" class="corner bottom-right">
+
+<!-- SOBRE -->
+<div class="envelope" id="envelope" onclick="abrir()">
+    <div class="flap"></div>
+</div>
+
+<!-- CARTA -->
+<div class="card" id="card">
+    <h1>Para Rosalynn 💖</h1>
+    <p>
+        <p>
+    Ros... 💖<br><br>
+
+    Desde que llegaste a mi vida todo se siente más bonito ✨<br>
+    Me haces sonreír incluso en los días más simples y cada momento contigo se vuelve especial 🌸<br><br>
+
+    Eres una persona increíble, dulce y única… y quiero seguir creando recuerdos contigo 💕<br><br>
+
+    Así que hoy quiero preguntarte algo muy importante...<br><br>
+
+    <b>¿Te gustaría ser mi novia? 💌</b><br><br>
+
+    Y antes de responder...<br>
+    <b>mira lo que hay en la maletera 👀💖</b>
+</p>
+    </p>
+</div>
+
+<!-- MENSAJE FINAL -->
+<div id="finalMsg" class="final">💖 Eres muy especial para mí 💖</div>
+
+<script>
+function abrir() {
+    const sobre = document.getElementById("envelope");
+    const card = document.getElementById("card");
+    const music = document.getElementById("music");
+
+    sobre.classList.add("open");
+    card.classList.add("show");
+    music.play();
+
+    // corazones
+    for (let i = 0; i < 25; i++) {
+        let heart = document.createElement("div");
+        heart.className = "heart";
+        heart.innerHTML = "💖";
+        heart.style.left = Math.random() * window.innerWidth + "px";
+        heart.style.top = "80%";
+        document.body.appendChild(heart);
+
+        setTimeout(() => heart.remove(), 4000);
+    }
+
+    // desaparecer solo el sobre
+    setTimeout(() => {
+        sobre.classList.add("fade");
+    }, 1500);
+
+    // mensaje final
+    setTimeout(() => {
+        document.getElementById("finalMsg").classList.add("show");
+    }, 2000);
+}
+</script>
+
+</body>
+</html>
